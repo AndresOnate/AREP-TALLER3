@@ -1,12 +1,19 @@
 package edu.escuelaing.arep.app;
 
 
+import edu.escuelaing.arep.app.controller.APIController;
+import edu.escuelaing.arep.app.controller.MovieAPI;
+import edu.escuelaing.arep.app.model.HTMLBuilder;
+import edu.escuelaing.arep.app.service.Function;
+
 import java.io.*;
 import java.net.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The `HttpServer` class represents a simple HTTP server that listens on port 35000 and handles incoming HTTP requests.
@@ -14,12 +21,21 @@ import java.nio.file.Paths;
  *
  * It supports requests related to movie information and provides a default HTML response.
  */
-public class HttpServer
+public class MySpark
 {
     /**
      * Represents the API controller for fetching movie information.
      */
     private static MovieAPI myMoviesAPI = new APIController();
+    private static MySpark _instance = new MySpark();
+
+    private static HashMap<String, Function> services = new HashMap<String, Function>();
+
+    private MySpark(){}
+
+    public static MySpark getInstance(){
+        return _instance;
+    }
 
 
     /**
@@ -29,7 +45,7 @@ public class HttpServer
      * @param args The command line arguments passed to the program.
      * @throws Exception If an error occurs during the execution of the server.
      */
-    public static void main( String[] args ) throws Exception
+    public void runServer( String[] args ) throws Exception
     {
         ServerSocket serverSocket = null;
         try {
@@ -60,7 +76,7 @@ public class HttpServer
      * @throws IOException If an I/O error occurs while reading from or writing to the client socket.
      * @throws URISyntaxException If an error occurs while parsing the URI of the request.
      */
-    private static void handleClientRequest(Socket clientSocket) throws IOException, URISyntaxException {
+    private void handleClientRequest(Socket clientSocket) throws IOException, URISyntaxException {
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(
@@ -85,7 +101,9 @@ public class HttpServer
             outputLine = getMovieInformation(uriStr);
         }else{
             try {
-                if(uriStr.contains("png") || uriStr.contains("jpg")){
+                if(requestURI.getPath().startsWith("/action")){
+                    outputLine = callService(requestURI);
+                } else if(uriStr.contains("png") || uriStr.contains("jpg")){
                     handleImageRequest(requestURI, clientSocket.getOutputStream());
                 }else{
                     outputLine = httpResponseFile(requestURI);
@@ -166,6 +184,24 @@ public class HttpServer
             e.printStackTrace();
         }
         return HTMLBuilder.httpMovieError(title);
+    }
+
+    public static void  get(String path, Function svc) throws Exception {
+        services.put(path,svc);
+    }
+
+    private String callService(URI requestURI) {
+        String serviceURI = requestURI.getPath().substring(7);
+        String output = "Error, No encuentra la función";
+        System.out.println(serviceURI);
+        if(services.containsKey(serviceURI)){
+            Function f = services.get(serviceURI);
+            output = f.handle(requestURI.getQuery());
+        }
+        return  "HTTP/1.1 200 OK\r\n"
+                + "Content-Type:text/html\r\n"
+                + "\r\n" + output;
+
     }
 
 }

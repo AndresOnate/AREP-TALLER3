@@ -52,7 +52,7 @@ Las siguientes instrucciones le permitirán descargar una copia y ejecutar la ap
 
 6. Para iniciar el servidor, ejecute el siguiente comando:
 
-    ``` java -cp target/LAB2_AREP-1.0-SNAPSHOT.jar edu.escuelaing.arep.app.HttpServer ```
+    ``` java -cp target/LAB2_AREP-1.0-SNAPSHOT.jar edu.escuelaing.arep.app.MySpark ```
 
 7. Verifique en la linea de comanos que se imprimió el mensaje **Listo para recibir ...**
    

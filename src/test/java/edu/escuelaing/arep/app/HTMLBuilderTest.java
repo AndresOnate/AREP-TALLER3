@@ -1,6 +1,7 @@
 package edu.escuelaing.arep.app;
 
 
+import edu.escuelaing.arep.app.model.HTMLBuilder;
 import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.*;
 public class HTMLBuilderTest {
