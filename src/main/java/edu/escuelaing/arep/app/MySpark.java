@@ -3,7 +3,7 @@ package edu.escuelaing.arep.app;
 
 import edu.escuelaing.arep.app.controller.APIController;
 import edu.escuelaing.arep.app.controller.MovieAPI;
-import edu.escuelaing.arep.app.model.HTMLBuilder;
+import edu.escuelaing.arep.app.model.ResponseBuilder;
 import edu.escuelaing.arep.app.service.Function;
 
 import java.io.*;
@@ -13,7 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * The `HttpServer` class represents a simple HTTP server that listens on port 35000 and handles incoming HTTP requests.
@@ -96,6 +95,8 @@ public class MySpark
             }
         }
         URI requestURI = new URI(uriStr);
+        outputLine = outputLine = ResponseBuilder.httpError(requestURI);
+        String path = requestURI.getPath();
         System.out.println("======Request======:" + requestURI.getPath());
 
         try {
@@ -105,12 +106,11 @@ public class MySpark
                 }else{
                     outputLine = httpResponseFile(requestURI);
                 }
-            }else if(services.containsKey(requestURI.getPath())){
-                outputLine = callService(requestURI);
+            }else if(services.containsKey(path)){
+                outputLine = callService(path, requestURI);
             }
         }catch (Exception e){
             e.printStackTrace();
-            outputLine = HTMLBuilder.httpError(requestURI);
         }
         out.println(outputLine);
         out.println();
@@ -135,8 +135,8 @@ public class MySpark
         }
         Path file = Paths.get("target/classes/" + location + path);
         String extension = path.substring(path.lastIndexOf('.') + 1);
-        String contentType = HTMLBuilder.getContentType(extension);
-        String outputLine = HTMLBuilder.httpOkHeader(contentType);
+        String contentType = ResponseBuilder.getContentType(extension);
+        String outputLine = ResponseBuilder.httpOkHeader(contentType);
         Charset charset = Charset.forName("UTF-8");
         BufferedReader reader = Files.newBufferedReader(file, charset);
         String line = null;
@@ -160,32 +160,14 @@ public class MySpark
             path = "/img/mySpark.png";
         }
         String extension = path.substring(path.lastIndexOf('.') + 1);
-        String contentType = HTMLBuilder.getContentType(extension);
-        String outputLine = HTMLBuilder.httpOkHeader(contentType);
+        String contentType = ResponseBuilder.getContentType(extension);
+        String outputLine = ResponseBuilder.httpOkHeader(contentType);
         Path file = Paths.get("target/classes/" + location + path);
         byte[] fileArray;
         fileArray = Files.readAllBytes(file);
         out.write(outputLine.getBytes());
         out.write(fileArray, 0, fileArray.length);
         out.close();
-    }
-
-    /**
-     * Retrieves movie information based on the provided URI and returns the corresponding HTML response.
-     * @param uriStr The URI containing the movie title information.
-     * @return The HTML response containing movie data or an error message.
-     */
-    public static String getMovieInformation(String uriStr ){
-        String title = uriStr.split("=")[1].toLowerCase();
-        try {
-            String movieJSON = myMoviesAPI.connectToMoviesAPI(title);
-            if(movieJSON != null) {
-                return HTMLBuilder.httpMovieData(movieJSON);
-            }
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-        return HTMLBuilder.httpMovieError(title);
     }
 
     public static void  get(String path, Function svc) throws Exception {
@@ -196,19 +178,20 @@ public class MySpark
         location = newLocation;
     }
 
-    private String callService(URI requestURI) {
-        String serviceURI = requestURI.getPath();
-        String output = "Error, No encuentra la función";
-        System.out.println(serviceURI);
-        if(services.containsKey(serviceURI)){
-            Function f = services.get(serviceURI);
-            output = f.handle(requestURI.getQuery());
+    private String callService(String path, URI requestURI) throws IOException {
+        String output = "";
+        Function service = services.get(path);
+        try {
+            output = service.handle(requestURI);
+            System.out.println("==== Function Response: " + output + " =====");
+        }catch (IOException e){
+            e.printStackTrace();
+            return ResponseBuilder.httpError(requestURI);
         }
-        return  "HTTP/1.1 200 OK\r\n"
-                + "Content-Type:text/html\r\n"
-                + "\r\n" + output;
-
+        return ResponseBuilder.httpOkServiceCall() + output;
     }
+
+
 
 }
 

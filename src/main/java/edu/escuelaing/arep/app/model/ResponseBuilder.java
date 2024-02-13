@@ -7,8 +7,9 @@ import java.net.URI;
  * The `HTMLBuilder` class provides methods for generating HTML responses
  * that can be sent as part of HTTP responses in the context of handling movie information.
  */
-public class HTMLBuilder {
+public class ResponseBuilder {
 
+    private static String responseType = "text/html";
 
     /**
      * Generates an HTTP response for a 400 Not Found
@@ -25,20 +26,6 @@ public class HTMLBuilder {
     }
 
     /**
-     * Generates an HTTP response for successful movie data retrieval with the provided JSON string.
-     *
-     * @param movieJSON The JSON string containing information about the movie.
-     * @return An HTTP response string for successful movie data retrieval.
-     */
-    public static String httpMovieData(String movieJSON){
-        String outputLine = "HTTP/1.1 200 OK\r\n"
-                + "Content-Type: application/json\r\n"
-                + "\r\n"
-                + movieJSON;
-        return outputLine;
-    }
-
-    /**
      * Gets the content type header value based on the file extension.
      * @param extension The file extension for which to determine the content type.
      * @return The content type header value corresponding to the file extension.
@@ -47,22 +34,22 @@ public class HTMLBuilder {
         String contentType;
         switch (extension.toLowerCase()) {
             case "js":
-                contentType = "Content-Type: text/javascript\r\n";
+                contentType = "text/javascript\r\n";
                 break;
             case "html":
-                contentType = "Content-Type: text/html\r\n";
+                contentType = "text/html\r\n";
                 break;
             case "css":
-                contentType = "Content-Type: text/css\r\n";
+                contentType = "text/css\r\n";
                 break;
             case "png":
-                contentType = "Content-Type: image/png\r\n";
+                contentType = "image/png\r\n";
                 break;
             case "jpg":
-                contentType = "Content-Type: image/jpg\r\n";
+                contentType = "image/jpg\r\n";
                 break;
             default:
-                contentType = "Content-Type: text/plain\r\n";
+                contentType = "text/plain\r\n";
                 break;
         }
         return  contentType;
@@ -70,12 +57,21 @@ public class HTMLBuilder {
 
     /**
      * Generates an HTTP response header with a status of 200 OK and the specified content type.
-     * @param contentType The content type header value to include in the HTTP response.
      * @return The HTTP response header string with the status and content type.
      */
+    public static String httpOkServiceCall(){
+        String output = "HTTP/1.1 200 OK\r\n"
+                + "Content-Type:" + responseType + "\r\n"
+                + "\r\n";
+        if(responseType != "text/html"){
+            responseType = "text/html";
+        }
+        return output;
+    }
+
     public static String httpOkHeader(String contentType){
-        return  "HTTP/1.1 200 OK\r\n"
-                + contentType
+        return   "HTTP/1.1 200 OK\r\n"
+                + "Content-Type:" + contentType
                 + "\r\n";
     }
 
@@ -90,7 +86,7 @@ public class HTMLBuilder {
                 + "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "    <head>\n" +
-                "        <title>Form Example</title>\n" +
+                "        <title>aonateSpark</title>\n" +
                 "        <meta charset=\"UTF-8\">\n" +
                 "        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
                 "    </head>\n" +
@@ -99,5 +95,9 @@ public class HTMLBuilder {
                 "    </body>\n" +
                 "</html>";;
         return outputLine;
+    }
+
+    public static void setResponseType(String newType){
+        responseType = newType;
     }
 }

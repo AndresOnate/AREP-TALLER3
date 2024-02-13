@@ -1,19 +1,19 @@
 package edu.escuelaing.arep.app;
 
 
-import edu.escuelaing.arep.app.model.HTMLBuilder;
+import edu.escuelaing.arep.app.model.ResponseBuilder;
 import org.junit.Test;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import static org.junit.jupiter.api.Assertions.*;
-public class HTMLBuilderTest {
+public class ResponseBuilderTest {
 
     @Test
     public void testBuildHttpMovieData() {
         String movieJSON = "{\"title\":\"Inception\",\"year\":2010,\"genre\":\"Sci-Fi\"}";
-        String result = HTMLBuilder.httpMovieData(movieJSON);
+        String result = ResponseBuilder.httpMovieData(movieJSON);
         assertTrue(result.contains("Inception"));
         assertTrue(result.contains("2010"));
         assertTrue(result.contains("Sci-Fi"));
@@ -22,45 +22,45 @@ public class HTMLBuilderTest {
     @Test
     public void testBuildHttpError() {
         String title = "NonExistentMovie";
-        String result = HTMLBuilder.httpMovieError(title);
+        String result = ResponseBuilder.httpMovieError(title);
         assertTrue(result.contains("Not Found"));
         assertTrue(result.contains(title));
     }
 
     @Test
     public void testGetContentTypeForJS() {
-        String contentType = HTMLBuilder.getContentType("js");
+        String contentType = ResponseBuilder.getContentType("js");
         assertEquals("Content-Type: text/javascript\r\n", contentType);
     }
 
     @Test
     public void testGetContentTypeForHTML() {
-        String contentType = HTMLBuilder.getContentType("html");
+        String contentType = ResponseBuilder.getContentType("html");
         assertEquals("Content-Type: text/html\r\n", contentType);
     }
 
     @Test
     public void testGetContentTypeForCSS() {
-        String contentType = HTMLBuilder.getContentType("css");
+        String contentType = ResponseBuilder.getContentType("css");
         assertEquals("Content-Type: text/css\r\n", contentType);
     }
 
     @Test
     public void testGetContentTypeForPNG() {
-        String contentType = HTMLBuilder.getContentType("png");
+        String contentType = ResponseBuilder.getContentType("png");
         assertEquals("Content-Type: image/png\r\n", contentType);
     }
 
     @Test
     public void testGetContentTypeForJPG() {
-        String contentType = HTMLBuilder.getContentType("jpg");
+        String contentType = ResponseBuilder.getContentType("jpg");
         assertEquals("Content-Type: image/jpg\r\n", contentType);
     }
 
     @Test
     public void testBuildHttpOkHeader() {
         String contentType = "Content-Type: text/html\r\n";
-        String httpOkHeader = HTMLBuilder.httpOkHeader(contentType);
+        String httpOkHeader = ResponseBuilder.httpOkHeader(contentType);
         assertTrue(httpOkHeader.contains("200 OK"));
         assertTrue(httpOkHeader.contains(contentType));
     }
@@ -68,7 +68,7 @@ public class HTMLBuilderTest {
     @Test
     public void testBuildHttpNotFoundError() throws URISyntaxException {
         URI requestURI = new URI("/hi");
-        String httpError = HTMLBuilder.httpError(requestURI);
+        String httpError = ResponseBuilder.httpError(requestURI);
         assertTrue(httpError.contains("400 Not Found"));
     }
 

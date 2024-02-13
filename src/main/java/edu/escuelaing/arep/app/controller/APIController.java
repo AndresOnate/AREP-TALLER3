@@ -41,7 +41,7 @@ public class APIController implements MovieAPI {
      * @throws IOException If an I/O error occurs while connecting to the API.
      */
     public  String connectToMoviesAPI(String movie) throws IOException {
-        String movieJSON = null;
+        String movieJSON = "{\"Response\":\"False\",\"Error\":\"Movie not found!\"}";
         if(cache.containsKey(movie)){
             System.out.println(movie + " se encuentra en Caché");
             movieJSON = cache.get(movie);
