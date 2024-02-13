@@ -1,6 +1,8 @@
 package edu.escuelaing.arep.app.model;
 
 
+import java.net.URI;
+
 /**
  * The `HTMLBuilder` class provides methods for generating HTML responses
  * that can be sent as part of HTTP responses in the context of handling movie information.
@@ -81,10 +83,21 @@ public class HTMLBuilder {
      * Generates an HTTP response for the case where a requested resource is not found (status code 400).
      * @return The HTTP response string with the status code 400 and content type set to application/json.
      */
-    public static String httpError() {
+    public static String httpError(URI requestURI) {
         String outputLine = "HTTP/1.1 400 Not Found\r\n"
-                + "Content-Type:application/json\r\n"
-                + "\r\n";
+                + "Content-Type:text/html\r\n"
+                + "\r\n"
+                + "<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "    <head>\n" +
+                "        <title>Form Example</title>\n" +
+                "        <meta charset=\"UTF-8\">\n" +
+                "        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                "    </head>\n" +
+                "    <body>\n" +
+                "<h1>Error: " + requestURI.getPath() + " not found"+ "</h1>" +
+                "    </body>\n" +
+                "</html>";;
         return outputLine;
     }
 }

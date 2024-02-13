@@ -3,6 +3,10 @@ package edu.escuelaing.arep.app;
 
 import edu.escuelaing.arep.app.model.HTMLBuilder;
 import org.junit.Test;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import static org.junit.jupiter.api.Assertions.*;
 public class HTMLBuilderTest {
 
@@ -62,8 +66,9 @@ public class HTMLBuilderTest {
     }
 
     @Test
-    public void testBuildHttpNotFoundError() {
-        String httpError = HTMLBuilder.httpError();
+    public void testBuildHttpNotFoundError() throws URISyntaxException {
+        URI requestURI = new URI("/hi");
+        String httpError = HTMLBuilder.httpError(requestURI);
         assertTrue(httpError.contains("400 Not Found"));
     }
 

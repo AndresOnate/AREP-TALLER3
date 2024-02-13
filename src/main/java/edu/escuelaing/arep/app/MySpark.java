@@ -28,6 +28,7 @@ public class MySpark
      */
     private static MovieAPI myMoviesAPI = new APIController();
     private static MySpark _instance = new MySpark();
+    private static String location = "public";
 
     private static HashMap<String, Function> services = new HashMap<String, Function>();
 
@@ -95,23 +96,21 @@ public class MySpark
             }
         }
         URI requestURI = new URI(uriStr);
-        // Llamado al API
-        if(uriStr.contains("movies?name=")) {
-            uriStr = URLDecoder.decode(uriStr, "UTF-8");
-            outputLine = getMovieInformation(uriStr);
-        }else{
-            try {
-                if(requestURI.getPath().startsWith("/action")){
-                    outputLine = callService(requestURI);
-                } else if(uriStr.contains("png") || uriStr.contains("jpg")){
+        System.out.println("======Request======:" + requestURI.getPath());
+
+        try {
+            if(requestURI.getPath().contains(".")){
+                if(uriStr.contains("png") || uriStr.contains("jpg") || uriStr.contains("ico")){
                     handleImageRequest(requestURI, clientSocket.getOutputStream());
                 }else{
                     outputLine = httpResponseFile(requestURI);
                 }
-            }catch (Exception e){
-                e.printStackTrace();
-                outputLine = HTMLBuilder.httpError();
+            }else if(services.containsKey(requestURI.getPath())){
+                outputLine = callService(requestURI);
             }
+        }catch (Exception e){
+            e.printStackTrace();
+            outputLine = HTMLBuilder.httpError(requestURI);
         }
         out.println(outputLine);
         out.println();
@@ -134,7 +133,7 @@ public class MySpark
         if (!path.contains(".")) {
             path = "/index.html";
         }
-        Path file = Paths.get("target/classes/public" + path);
+        Path file = Paths.get("target/classes/" + location + path);
         String extension = path.substring(path.lastIndexOf('.') + 1);
         String contentType = HTMLBuilder.getContentType(extension);
         String outputLine = HTMLBuilder.httpOkHeader(contentType);
@@ -157,10 +156,13 @@ public class MySpark
      */
     public static void handleImageRequest(URI requestedURI, OutputStream out) throws IOException {
         String path = requestedURI.getPath();
+        if(path.contains("favicon.ico")){
+            path = "/img/mySpark.png";
+        }
         String extension = path.substring(path.lastIndexOf('.') + 1);
         String contentType = HTMLBuilder.getContentType(extension);
         String outputLine = HTMLBuilder.httpOkHeader(contentType);
-        Path file = Paths.get("target/classes/public" + path);
+        Path file = Paths.get("target/classes/" + location + path);
         byte[] fileArray;
         fileArray = Files.readAllBytes(file);
         out.write(outputLine.getBytes());
@@ -190,8 +192,12 @@ public class MySpark
         services.put(path,svc);
     }
 
+    public static void setLocation(String newLocation){
+        location = newLocation;
+    }
+
     private String callService(URI requestURI) {
-        String serviceURI = requestURI.getPath().substring(7);
+        String serviceURI = requestURI.getPath();
         String output = "Error, No encuentra la función";
         System.out.println(serviceURI);
         if(services.containsKey(serviceURI)){
