@@ -10,6 +10,8 @@ public class ProductService {
 
     public ProductService() {
         this.productList = new ArrayList<>();
+        Product product = new Product("1", "Orange", "Fruit", 1200);
+        addProduct(product);
     }
 
     public void addProduct(Product product) {

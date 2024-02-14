@@ -97,6 +97,20 @@ public class ResponseBuilder {
         return outputLine;
     }
 
+    /**
+     * Generates an HTTP response for successful movie data retrieval with the provided JSON string.
+     *
+     * @param movieJSON The JSON string containing information about the movie.
+     * @return An HTTP response string for successful movie data retrieval.
+     */
+    public static String httpMovieData(String movieJSON){
+        String outputLine = "HTTP/1.1 200 OK\r\n"
+                + "Content-Type: application/json\r\n"
+                + "\r\n"
+                + movieJSON;
+        return outputLine;
+    }
+
     public static void setResponseType(String newType){
         responseType = newType;
     }
