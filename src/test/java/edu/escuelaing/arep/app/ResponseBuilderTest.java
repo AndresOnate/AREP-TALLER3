@@ -30,36 +30,36 @@ public class ResponseBuilderTest {
     @Test
     public void testGetContentTypeForJS() {
         String contentType = ResponseBuilder.getContentType("js");
-        assertEquals("Content-Type: text/javascript\r\n", contentType);
+        assertEquals("text/javascript\r\n", contentType);
     }
 
     @Test
     public void testGetContentTypeForHTML() {
         String contentType = ResponseBuilder.getContentType("html");
-        assertEquals("Content-Type: text/html\r\n", contentType);
+        assertEquals("text/html\r\n", contentType);
     }
 
     @Test
     public void testGetContentTypeForCSS() {
         String contentType = ResponseBuilder.getContentType("css");
-        assertEquals("Content-Type: text/css\r\n", contentType);
+        assertEquals("text/css\r\n", contentType);
     }
 
     @Test
     public void testGetContentTypeForPNG() {
         String contentType = ResponseBuilder.getContentType("png");
-        assertEquals("Content-Type: image/png\r\n", contentType);
+        assertEquals("image/png\r\n", contentType);
     }
 
     @Test
     public void testGetContentTypeForJPG() {
         String contentType = ResponseBuilder.getContentType("jpg");
-        assertEquals("Content-Type: image/jpg\r\n", contentType);
+        assertEquals("image/jpg\r\n", contentType);
     }
 
     @Test
     public void testBuildHttpOkHeader() {
-        String contentType = "Content-Type: text/html\r\n";
+        String contentType = "text/html\r\n";
         String httpOkHeader = ResponseBuilder.httpOkHeader(contentType);
         assertTrue(httpOkHeader.contains("200 OK"));
         assertTrue(httpOkHeader.contains(contentType));

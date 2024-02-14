@@ -26,7 +26,6 @@ public class MySparkTest {
         APIController movieAPI = new APIController();
         String result = movieAPI.connectToMoviesAPI("NonExistentMovie");
         System.out.println(result);
-        assertTrue(result.contains("Not Found"));
-        assertTrue(result.contains("nonexistentmovie movie not found"));
+        assertTrue(result.contains("{\"Response\":\"False\",\"Error\":\"Movie not found!\"}"));
     }
 }

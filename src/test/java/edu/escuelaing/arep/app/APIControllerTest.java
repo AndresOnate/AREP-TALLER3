@@ -21,7 +21,7 @@ public class APIControllerTest {
     public void testConnectToMoviesAPIMovieNotExist() throws IOException {
         APIController ApiController = new APIController();
         String actualResponse = ApiController.connectToMoviesAPI("NonExistentMovie");
-        assertNull(actualResponse);
+        assertEquals(actualResponse, "{\"Response\":\"False\",\"Error\":\"Movie not found!\"}");
     }
 
     @Test
@@ -38,7 +38,7 @@ public class APIControllerTest {
         String response = apiController.connectToMoviesAPI("Wish");
         assertEquals(1, APIController.getCache().size());
         String actualResponse = apiController.connectToMoviesAPI("NonExistentMovie");
-        assertNull(actualResponse);
+        assertEquals(actualResponse, "{\"Response\":\"False\",\"Error\":\"Movie not found!\"}");
         assertEquals(1, APIController.getCache().size());
     }
 
