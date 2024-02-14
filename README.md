@@ -1,4 +1,4 @@
-# MICROFRAMEWORKS WEB
+![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/91725896-c208-4b02-bdd9-bdf7606840f9)# MICROFRAMEWORKS WEB
 
 En este taller se construyó un servidor web para soportar una funcionalidad similar a la de SparkJava, un microframework WEB que permite construir aplicaciones web de manera simple usando funciones lambda.
 
@@ -7,7 +7,7 @@ En este taller se construyó un servidor web para soportar una funcionalidad sim
 La aplicación está diseñada para cumplir con los requisitos especificados en el enunciado del taller y proporcionar una experiencia de usuario fluida y satisfactoria. A continuación, se describen los principales componentes y características de la aplicación:
 
 - La clase `MySpark` permite el registro de servicios get y post usando funciones lambda, es responsable de manejar las solicitudes entrantes de los usuarios y coordinar las interacciones entre el cliente. Además, incluye métodos para configurar el directorio de los archivos estáticos y el tipo de respuesta del servicio, lo que permite servir contenido estático como archivos `HTML`, `CSS`, `JavaScript` e imágenes en los formatos `PNG` y `JPG`.
-- La interfaz `Function` define un único método `handle`, que toma un objeto de tipo `Request` y devuelve una cadena de caracteres. Esta interfaz se utiliza en la clase `MySpark` para definir las funciones lambda que manejan las solicitudes entrantes de los usuarios. El método handle es responsable de procesar la solicitud y generar una respuesta adecuada.
+- La interfaz `Function` define un único método `handle`, que toma un objeto de tipo `Request` y `ResponseBuilder` para devolver una cadena de caracteres. Esta interfaz se utiliza en la clase `MySpark` para definir las funciones lambda que manejan las solicitudes entrantes de los usuarios. El método handle es responsable de procesar la solicitud y generar una respuesta adecuada.
 - La clase `Request` representa una solicitud HTTP entrante y proporciona métodos para acceder a sus atributos, como la URI y el cuerpo de la solicitud. 
 - La clase `APIController` realiza la conexión a OMDb API en el método `connectToMoviesAPI`, al cual se le pasa como argumento el título de la película. Si la película es encontrada, se retorna un String con los datos, de lo contrario, se establecen mecanismos para validar si la película no fue encontrada y mostrar al usuario el estado de la consulta. Utiliza una estructura de datos concurrente `ConcurrentHashMap` para almacenar en caché las consultas realizadas a la API. Esto mejora significativamente los tiempos de respuesta al evitar consultas repetidas para las mismas películas. 
 - La clase `ResponseBuilder` ofrece métodos para construir las respuestas HTML que son enviadas a los usuarios. Proporciona métodos para generar respuestas HTTP con diferentes códigos de estado y tipos de contenido.
@@ -54,7 +54,15 @@ Las siguientes instrucciones le permitirán descargar una copia y ejecutar la ap
 
 9. De igual forma, puede abrir el proyecto con un IDE y ejecutar el método main de la clase `MyServices`. En la imagen siguiente se muestra el proyecto con el IDE IntelliJ:
 
-![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/d76a1205-1acf-46ed-8d31-b9fe54643953)
+![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/97f4d62b-d5e9-41aa-9b86-0eb87f01ce01)
+
+
+## Construyendo aplicaciones
+
+La clase `MySpark` permite el registro de servicios get y post usando funciones lambda. Cuando se recibe una solicitud GET o POST en la ruta especificada , el servidor ejecutará la función lambda proporcionada como segundo argumento. La función lambda toma un objeto `Request` como parámetro, que representa la solicitud entrante y un objeto `ResponseBuilder` que le permite modificar el tipo de la respuesta, por ejemplo, a "application/json".
+
+
+
 
 
 ## Probando la Aplicación.  
