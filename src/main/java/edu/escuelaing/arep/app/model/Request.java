@@ -4,6 +4,8 @@ import java.net.URI;
 
 public class Request {
     private URI uri = null;
+
+    private String HTTPVerb = "GET";
     private String body = null;
 
     public Request(URI uri, String body) {
@@ -27,5 +29,13 @@ public class Request {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public String getHTTPVerb() {
+        return HTTPVerb;
+    }
+
+    public void setHTTPVerb(String HTTPVerb) {
+        this.HTTPVerb = HTTPVerb;
     }
 }

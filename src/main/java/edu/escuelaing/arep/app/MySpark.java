@@ -111,8 +111,8 @@ public class MySpark
                     char[] bodyBuffer = new char[contentLength];
                     in.read(bodyBuffer, 0, contentLength);
                     requestBody = new String(bodyBuffer);
-                    System.out.println("Request Body: " + requestBody);
                     request.setBody(requestBody);
+                    request.setHTTPVerb("POST");
 
                 }
             }
@@ -126,7 +126,6 @@ public class MySpark
         request.setUri(requestURI);
         outputLine =  ResponseBuilder.httpError(requestURI);
         String path = requestURI.getPath();
-        System.out.println("======Request======:" + requestURI.getPath());
 
         try {
             if(requestURI.getPath().contains(".")){
@@ -226,7 +225,7 @@ public class MySpark
             e.printStackTrace();
             return ResponseBuilder.httpError(request.getUri());
         }
-        return ResponseBuilder.httpOkServiceCall() + output;
+        return ResponseBuilder.httpOkServiceCall(request) + output;
     }
 
     public static Map<String, String> getParamsFromURI(String queryString) {

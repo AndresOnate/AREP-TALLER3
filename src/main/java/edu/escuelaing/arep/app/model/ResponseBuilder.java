@@ -59,8 +59,12 @@ public class ResponseBuilder {
      * Generates an HTTP response header with a status of 200 OK and the specified content type.
      * @return The HTTP response header string with the status and content type.
      */
-    public static String httpOkServiceCall(){
-        String output = "HTTP/1.1 200 OK\r\n"
+    public static String httpOkServiceCall(Request request){
+        String returnCode = "200 OK";
+        if(request.getHTTPVerb().equals("POST")){
+            returnCode = "201 Created";
+        }
+        String output = "HTTP/1.1 " +  returnCode + "\r\n"
                 + "Content-Type:" + responseType + "\r\n"
                 + "\r\n";
         if(responseType != "text/html"){
