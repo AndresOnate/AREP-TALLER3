@@ -3,6 +3,7 @@ package edu.escuelaing.arep.app;
 
 import edu.escuelaing.arep.app.controller.APIController;
 import edu.escuelaing.arep.app.controller.MovieAPI;
+import edu.escuelaing.arep.app.model.Request;
 import edu.escuelaing.arep.app.model.ResponseBuilder;
 import edu.escuelaing.arep.app.service.Function;
 
@@ -13,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The `HttpServer` class represents a simple HTTP server that listens on port 35000 and handles incoming HTTP requests.
@@ -29,7 +31,8 @@ public class MySpark
     private static MySpark _instance = new MySpark();
     private static String location = "public";
 
-    private static HashMap<String, Function> services = new HashMap<String, Function>();
+    private static HashMap<String, Function> getServices = new HashMap<String, Function>();
+    private static HashMap<String, Function> postServices = new HashMap<String, Function>();
 
     private MySpark(){}
 
@@ -82,20 +85,46 @@ public class MySpark
                 new InputStreamReader(
                         clientSocket.getInputStream()));
         String inputLine, outputLine = null;
+        String requestBody = "";
         boolean firstLine = true;
+        String httpMethod = "";
         String uriStr = "";
+
+        Request request = new Request();
         while ((inputLine = in.readLine()) != null) {
             if(firstLine){
+                httpMethod = inputLine.split(" ")[0];
                 uriStr = inputLine.split(" ")[1];
                 firstLine = false;
+            }
+
+            if(httpMethod.equals("POST")){
+                int contentLength = 0;
+                while ((inputLine = in.readLine()) != null && !inputLine.isEmpty()) {
+                    if (inputLine.startsWith("Content-Length:")) {
+                        contentLength = Integer.parseInt(inputLine.substring(16));
+                        System.out.println(contentLength);
+                    }
+                }
+
+                if (contentLength > 0) {
+                    char[] bodyBuffer = new char[contentLength];
+                    in.read(bodyBuffer, 0, contentLength);
+                    requestBody = new String(bodyBuffer);
+                    System.out.println("Request Body: " + requestBody);
+                    request.setBody(requestBody);
+
+                }
             }
             System.out.println("Received: " + inputLine);
             if (!in.ready()) {
                 break;
             }
         }
+
         URI requestURI = new URI(uriStr);
-        outputLine = outputLine = ResponseBuilder.httpError(requestURI);
+        request.setUri(requestURI);
+        outputLine =  ResponseBuilder.httpError(requestURI);
         String path = requestURI.getPath();
         System.out.println("======Request======:" + requestURI.getPath());
 
@@ -106,8 +135,14 @@ public class MySpark
                 }else{
                     outputLine = httpResponseFile(requestURI);
                 }
-            }else if(services.containsKey(path)){
-                outputLine = callService(path, requestURI);
+            }else if(httpMethod.equals("GET")){
+                if(getServices.containsKey(path)){
+                    outputLine = callService(getServices.get(path), request);
+                }
+            } else if(httpMethod.equals("POST")) {
+                if (postServices.containsKey(path)) {
+                    outputLine = callService(postServices.get(path), request);
+                }
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -171,24 +206,41 @@ public class MySpark
     }
 
     public static void  get(String path, Function svc) throws Exception {
-        services.put(path,svc);
+        getServices.put(path,svc);
+    }
+
+    public static void  post(String path, Function svc) throws Exception {
+        postServices.put(path,svc);
     }
 
     public static void setLocation(String newLocation){
         location = newLocation;
     }
 
-    private String callService(String path, URI requestURI) throws IOException {
+    private String callService(Function service, Request request) throws IOException {
         String output = "";
-        Function service = services.get(path);
         try {
-            output = service.handle(requestURI);
+            output = service.handle(request);
             System.out.println("==== Function Response: " + output + " =====");
         }catch (IOException e){
             e.printStackTrace();
-            return ResponseBuilder.httpError(requestURI);
+            return ResponseBuilder.httpError(request.getUri());
         }
         return ResponseBuilder.httpOkServiceCall() + output;
+    }
+
+    public static Map<String, String> getParamsFromURI(String queryString) {
+        Map<String, String> params = new HashMap<>();
+        if (queryString != null && !queryString.isEmpty()) {
+            String[] pairs = queryString.split("&");
+            for (String pair : pairs) {
+                String[] keyValue = pair.split("=");
+                if (keyValue.length == 2) {
+                    params.put(keyValue[0], keyValue[1]);
+                }
+            }
+        }
+        return params;
     }
 
 
