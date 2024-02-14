@@ -59,30 +59,56 @@ Las siguientes instrucciones le permitirán descargar una copia y ejecutar la ap
 
 ## Probando la Aplicación.  
 
-Una vez muestra en la línea de comandos el mensaje **Listo para recibir ...**, se puede ingresar a la aplicación en cualquier navegador con la siguiente URL:
+### Archivos Estáticos
 
-       http://localhost:35000/index.html
+Puede asignar una carpeta  que sirve archivos estáticos con el método `MySpark.setLocation`, si por ejemplo, el directorio es configurado en `/public`, Un archivo /public/css/style.css está disponible como `http://{host}:{port}/css/style.css`.
 
-Debería ver en pantalla lo siguiente:
+![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/8462a39b-ce0f-4065-80aa-344bb6c03664)
 
-![image](https://github.com/AndresOnate/AREP-TALLER2/assets/63562181/4eeed7ea-295a-438f-9a53-f0a2d9951462)
+Entrega archivos estáticos como páginas HTML, CSS, JS e imágenes:
+
+![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/cee5f6a9-9f3f-4675-a475-0046efcf4c99)
+
+Si no se encuentra el archivo en el directorio especificado, se mostrará un mensaje de error:
+
+![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/cd653c10-ded2-4c5d-8d8c-6c2b7b2af4a0)
 
 
-Como puede observar, la aplicación tiene un espacio donde puede ingresar el título de la película. Una vez ingrese el título, presione el botón `Search`, 
-La información de la película es mostrada en una tabla.
+### GET
 
-![image](https://github.com/AndresOnate/AREP-TALLER2/assets/63562181/0e1ae431-d25d-4e03-8937-f0dceb70dee4)
+La clase `mySpark` ofrece el servicio get, se desarrollaron los siguientes ejemplos:
 
+`/hi`retorna un mensaje que incluye la ruta del URI recibido en la solicitud:
 
-El servidor puede tardar unos segundos mientras obtiene la información del API.  Si desea consultar otra película, ingrese el título y vuelva a dar en el botón. 
+![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/a751ecff-e540-40b4-9fa7-fe0ea877e2f0)
 
-Si  la API retorna el error `"{"Response":"False","Error":"Movie not found!"}"`, la aplicación informará a los usuarios:
+`/users` interpreta los parámetros de la consulta del URI para mostrar un mensaje personalizado.
 
-![image](https://github.com/AndresOnate/AREP-TALLER2/assets/63562181/2c9a2b8c-01e5-4c1f-9c37-dccfccdd107c)
+![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/ec3df66f-5fe8-4912-95b6-cad027643909)
 
-Comprobamos que los recursos estén cargados de forma correcta:
+`/movies` realiza una solicitud a una API de películas utilizando el título proporcionado en los parámetros de la consulta del URI y devuelve la respuesta en formato JSON.
 
-![image](https://github.com/AndresOnate/AREP-TALLER2/assets/63562181/3ee741b9-f24f-401d-abac-3e99b144a06d)
+![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/2f20b64b-a200-4c41-89a9-1d253abbeb48)
+
+Este mismo servicio puede ser usado por clientes web para dar un mejor formato a la salida de la consulta:
+
+![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/7f6c0f71-4ef5-4b40-9187-f8f66c70a7cd)
+
+### POST
+
+La clase `mySpark` ofrece el servicio post. Se desarrolló el siguiente ejemplo:
+
+Se implementó un servicio sencillo para enviar al servidor solicitudes POST para la creación de productos:
+
+![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/9ab564be-a570-4e01-b5e1-fe929bb34edc)
+
+El servidor retorna el JSON del producto creado:
+
+![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/ab48e395-bd5b-4d37-8a7f-0c514f837090)
+
+Podemos acceder a todos los productos al acceder al servicio get con ruta `/products`
+
+![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/733adf12-e5fb-467d-9fc5-5f3dfaed6dc9)
 
 
 ## Ejecutando las Pruebas.  
