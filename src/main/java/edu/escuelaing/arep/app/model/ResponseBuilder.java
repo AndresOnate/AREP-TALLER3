@@ -115,7 +115,7 @@ public class ResponseBuilder {
         return outputLine;
     }
 
-    public static void setResponseType(String newType){
+    public void setResponseType(String newType){
         responseType = newType;
     }
 }

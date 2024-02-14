@@ -20,31 +20,31 @@ public class MyServices {
 
         ProductService productService = new ProductService();
 
-        get("/hi", (req) -> { return "El query es:" + req.getUri().getPath();});
+        get("/hi", (req, res) -> { return "El query es:" + req.getUri().getPath();});
 
-        get("/users", (req) -> {
+        get("/users", (req, res) -> {
             Map<String, String> params = MySpark.getParamsFromURI(req.getUri().getQuery());
             String name = params.get("name");
             String topic = params.get("topic");
             return "<h1>Hola " + name + ", estas buscando sobre " + topic + "</h1>" ;});
 
-        get("/movies", (req) -> {
-            ResponseBuilder.setResponseType("application/json");
+        get("/movies", (req, res) -> {
+            res.setResponseType("application/json");
             URI requestURI = req.getUri();
             String title = requestURI.getQuery().split("=")[1].toLowerCase();
             APIController apiMovies = new APIController();
             return  apiMovies.connectToMoviesAPI(title);
         });
 
-        post("/products", (req) -> {
-            ResponseBuilder.setResponseType("application/json");
+        post("/products", (req, res) -> {
+            res.setResponseType("application/json");
             Product product = new Product(req.getBody());
             productService.addProduct(product);
             return product.toString();
         });
 
-        get("/products", (req) -> {
-            ResponseBuilder.setResponseType("application/json");
+        get("/products", (req, res) -> {
+            res.setResponseType("application/json");
             return productService.getAllProducts().toString();
         });
 

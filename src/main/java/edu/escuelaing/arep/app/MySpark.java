@@ -219,7 +219,7 @@ public class MySpark
     private String callService(Function service, Request request) throws IOException {
         String output = "";
         try {
-            output = service.handle(request);
+            output = service.handle(request, new ResponseBuilder());
             System.out.println("==== Function Response: " + output + " =====");
         }catch (IOException e){
             e.printStackTrace();
