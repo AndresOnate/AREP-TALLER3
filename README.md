@@ -1,4 +1,4 @@
-![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/91725896-c208-4b02-bdd9-bdf7606840f9)# MICROFRAMEWORKS WEB
+# MICROFRAMEWORKS WEB
 
 En este taller se construyó un servidor web para soportar una funcionalidad similar a la de SparkJava, un microframework WEB que permite construir aplicaciones web de manera simple usando funciones lambda.
 
