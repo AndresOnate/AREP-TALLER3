@@ -1,4 +1,4 @@
-# MICROFRAMEWORKS WEB
+![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/91725896-c208-4b02-bdd9-bdf7606840f9)# MICROFRAMEWORKS WEB
 
 En este taller se construyó un servidor web para soportar una funcionalidad similar a la de SparkJava, un microframework WEB que permite construir aplicaciones web de manera simple usando funciones lambda.
 
@@ -59,7 +59,7 @@ Las siguientes instrucciones le permitirán descargar una copia y ejecutar la ap
 
 ## Construyendo aplicaciones
 
-La clase `MySpark` permite el registro de servicios get y post usando funciones lambda. Cuando se recibe una solicitud GET o POST en la ruta especificada , el servidor ejecutará la función lambda proporcionada como segundo argumento. La función lambda toma un objeto Request como parámetro, que representa la solicitud entrante.
+La clase `MySpark` permite el registro de servicios get y post usando funciones lambda. Cuando se recibe una solicitud GET o POST en la ruta especificada , el servidor ejecutará la función lambda proporcionada como segundo argumento. La función lambda toma un objeto `Request` como parámetro, que representa la solicitud entrante y un objeto `ResponseBuilder` que le permite modificar el tipo de la respuesta, por ejemplo, a "application/json".
 
 
 
