@@ -45,16 +45,16 @@ Las siguientes instrucciones le permitirán descargar una copia y ejecutar la ap
 
 6. Para iniciar el servidor, ejecute el siguiente comando:
 
-    ``` java -cp target/LAB3_AREP-1.0-SNAPSHOT.jar edu.escuelaing.arep.app.MySpark ```
+    ``` java -cp target/LAB3_AREP-1.0-SNAPSHOT.jar edu.escuelaing.arep.app.MyServices ```
 
 7. Verifique en la linea de comanos que se imprimió el mensaje **Listo para recibir ...**
    
-![image](https://github.com/AndresOnate/AREP-TALLER2/assets/63562181/9481e3f9-ce23-4280-912d-65c9fe3bcb8f)
+![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/1060d327-357b-4a9f-8055-60a98065be70)
 
 
 9. De igual forma, puede abrir el proyecto con un IDE y ejecutar el método main de la clase `MyServices`. En la imagen siguiente se muestra el proyecto con el IDE IntelliJ:
 
-![image](https://github.com/AndresOnate/AREP-TALLER2/assets/63562181/28b63961-3560-415c-8081-9a6c04f2a8eb)
+![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/d76a1205-1acf-46ed-8d31-b9fe54643953)
 
 
 ## Probando la Aplicación.  
