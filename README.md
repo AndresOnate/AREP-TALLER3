@@ -102,6 +102,8 @@ public static void main(String[] args) throws Exception {
 
 ```
 
+Por defecto, los servicios estarán disponibles en la ruta ``http://localhost:35000/`
+
 ## Probando la Aplicación.  
 
 ### Archivos Estáticos
@@ -154,6 +156,21 @@ El servidor retorna el JSON del producto creado:
 Podemos acceder a todos los productos al acceder al servicio get con ruta `/products`
 
 ![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/733adf12-e5fb-467d-9fc5-5f3dfaed6dc9)
+
+
+La demostración anterior se ejecutó sobre el sistema operativo Windows, a continuación, se ejecutará el servidor web en una máquina virtual con sistema operativo Kali Linux:
+
+![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/7b37a773-c45b-4226-b278-83108f7bcaf3)
+
+Realizamos solicitudes para comprobar el correcto funcionamiento.
+
+Archivos estáticos:
+
+![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/57bcd77a-e091-4e2f-b472-1dc55bded3aa)
+
+Servicio GET:
+
+![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/f26f1624-ce4e-48b7-b2be-baaa95e70529)
 
 
 ## Ejecutando las Pruebas.  
