@@ -102,7 +102,7 @@ public static void main(String[] args) throws Exception {
 
 ```
 
-Por defecto, los servicios estarán disponibles en la ruta ``http://localhost:35000/`
+Por defecto, los servicios estarán disponibles en la ruta `http://localhost:35000/`
 
 ## Probando la Aplicación.  
 
