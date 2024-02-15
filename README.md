@@ -61,9 +61,46 @@ Las siguientes instrucciones le permitirán descargar una copia y ejecutar la ap
 
 La clase `MySpark` permite el registro de servicios get y post usando funciones lambda. Cuando se recibe una solicitud GET o POST en la ruta especificada , el servidor ejecutará la función lambda proporcionada como segundo argumento. La función lambda toma un objeto `Request` como parámetro, que representa la solicitud entrante y un objeto `ResponseBuilder` que le permite modificar el tipo de la respuesta, por ejemplo, a "application/json".
 
+Para registrar un servicio GET o POST, utilizamos los métodos get() y post() proporcionados por la clase `MySpark`. Estos métodos toman dos argumentos: la ruta del servicio y una función lambda que define el comportamiento del servicio. Dentro de la función lambda, puedes procesar la solicitud, realizar operaciones necesarias (como procesar datos, consultar APIs externas etc.) y generar la respuesta correspondiente.
 
 
+Ejemplo de una función lambda en un servicio GET:
 
+```
+// Registro de un servicio GET en la ruta '/hi'
+get("/hi", (req, res) -> {
+          // Obtener la ruta de la URI de la solicitud
+          String path = req.getUri().getPath();
+          // Generar una respuesta con la ruta
+          return "El query es:" + path;
+      });
+```
+
+Ejemplo de una función lambda en un servicio POST:
+```
+post("/products", (req, res) -> {
+    // Configurar el tipo de respuesta como JSON
+    res.setResponseType("application/json");
+    // Crear un nuevo producto a partir de los datos en el cuerpo de la solicitud
+    Product product = new Product(req.getBody());
+    // Agregar el producto a la lista de productos
+    productService.addProduct(product);
+    // Devolver el producto como una cadena JSON
+    return product.toString();
+});
+
+```
+
+Por defecto, la ruta de acceso a los recursos estáticos es `/public`, si se requiere, se puede cambiar con el método `setLocation` de la clase `MySpark`.
+Una vez que se hayan definido los servicios, puede ejecutar el servidor (método `runServer`) para comenzar a manejar solicitudes HTTP:
+
+```
+public static void main(String[] args) throws Exception {
+    // servicios post y get
+    MySpark.getInstance().runServer(args);
+}
+
+```
 
 ## Probando la Aplicación.  
 
