@@ -188,7 +188,8 @@ A continuación se muestra cómo ejecutar las pruebas desde la línea de comando
 
 4. Puede ejecutar las pruebas desde un IDE como IntelliJ:
 
-   ![image](https://github.com/AndresOnate/AREP-TALLER2/assets/63562181/ea3026d1-8d5f-47cf-a576-8fd0cb495d58)
+![image](https://github.com/AndresOnate/AREP-TALLER3/assets/63562181/3f85f85b-4909-46ea-82c9-2a7da900650e)
+
 
 
 ## Construido Con. 
